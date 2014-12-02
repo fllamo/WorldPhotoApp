@@ -18,10 +18,12 @@ var async = require('async');
 //     console.log(err);
 // });
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+// var query = 'SELECT * FROM users';
+// client.execute(query, '', function(err, result) {
+//   assert.ifError(err);
+//   console.log('got user profile with email ' + result.rows[0].email);
+// });
 
-var router = express.Router();
 
 var app = express();
 
@@ -37,12 +39,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+var routes = require('./routes/index');
 app.use('/', routes);
-app.use('/users', users);
+
 
 // ROUTES FOR OUR API
 //+++++++++++++++++++++++++++++++
 var router = express.Router();  // get an instance of the express Router
+var user = require('./routes/user');
+var submission = require('./routes/submission');
+var wordOfTheDay = require('./routes/wordoftheday');
 
 router.use(function(req, res, next){
     // do stuff
@@ -56,27 +62,14 @@ router.get('/', function(req, res){
 });
 
 // more routes here for API
-
-// on routes Users
-router.route('/users')
-    .post(function(req, res){
-        var user = new User();
-
-        res
-
-    });
+user.attachRoutes(router);
+submission.attachRoutes(router);
+wordOfTheDay.attachRoutes(router);
 
 
 // REGISTER OUR ROUTES
 // all routes will be prefixed with /api
 app.use('/api',router);
-
-
-// var query = 'SELECT * FROM users';
-// client.execute(query, '', function(err, result) {
-//   assert.ifError(err);
-//   console.log('got user profile with email ' + result.rows[0].email);
-// });
 
 
 // catch 404 and forward to error handler
