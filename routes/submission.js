@@ -1,4 +1,4 @@
-exports.attachRoutes = function attachRoutes (router) {
+exports.attachRoutes = function attachRoutes (router, client) {
     // var Submission = require('../models/submission');
     var Submission;
 

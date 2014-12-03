@@ -1,17 +1,18 @@
-exports.attachRoutes = function attachRoutes (router) {
-    // var User = require('../models/user');
-    var User;
+exports.attachRoutes = function attachRoutes (router, client) {
+
+
+    var User = require('../models/user')(client);
 
     // on routes Users
     router.route('/user')
         .post(function(req, res) {
             var user = {};
 
-            user.firstname = req.body.firstname;
-            user.lastname = req.body.lastname;
+            user.firstname = req.body.firstName;
+            user.lastname = req.body.lastName;
             user.email = req.body.email;
 
-            User.add(function(err, user) {
+            User.add(user, function(err, user) {
                 if (err)
                     res.send(err);
 
@@ -26,7 +27,7 @@ exports.attachRoutes = function attachRoutes (router) {
                 if (err)
                     res.send(err);
 
-                res.json(user);
+                res.json(users);
             });
         });
 
@@ -34,15 +35,16 @@ exports.attachRoutes = function attachRoutes (router) {
         .put(function(req, res) {
 
             // use our user model to find the user we want
-            User.findById(req.params.email, function(err, user) {
+            User.findByPK(req.params.email, function(err, user) {
 
                 if (err)
                     res.send(err);
 
-                user.name = req.body.name;  // update the bears info
+                user.firstname = req.body.firstName;
+                user.lastname = req.body.lastName;
 
-                // save the bear
-                user.save(function(err) {
+                // update the user
+                User.update(user, function(err) {
                     if (err)
                         res.send(err);
 
@@ -54,16 +56,17 @@ exports.attachRoutes = function attachRoutes (router) {
         })
 
         .get(function(req, res){
-            User.findByEmail(function(err, user) {
+            User.findByPK(req.params.email, function(err, user) {
+                if (err)
+                    res.send(err);
 
+                res.json(users);
             });
 
         })
 
         .delete(function(req, res) {
-            User.remove({
-                _email: req.params.email
-            }, function(err, user) {
+            User.remove(req.params.email, function(err, user) {
                 if (err)
                     res.send(err);
 
