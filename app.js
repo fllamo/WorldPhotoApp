@@ -13,16 +13,10 @@ var async = require('async');
 // //Set the auth provider in the clientOptions when creating the Client instance
 // var client = new Client({authProvider: authProvider});
 
-// var client = new cassandra.Client({contactPoints: ['ec2-54-165-49-48.compute-1.amazonaws.com'], keyspace: 'demo'});
-// client.connect(function(err){
-//     console.log(err);
-// });
-
-// var query = 'SELECT * FROM users';
-// client.execute(query, '', function(err, result) {
-//   assert.ifError(err);
-//   console.log('got user profile with email ' + result.rows[0].email);
-// });
+var client = new cassandra.Client({contactPoints: ['ec2-54-165-49-48.compute-1.amazonaws.com'], keyspace: 'words'});
+client.connect(function(err){
+    console.log(err);
+});
 
 
 var app = express();
@@ -62,9 +56,9 @@ router.get('/', function(req, res){
 });
 
 // more routes here for API
-user.attachRoutes(router);
-submission.attachRoutes(router);
-wordOfTheDay.attachRoutes(router);
+user.attachRoutes(router, client);
+submission.attachRoutes(router, client);
+wordOfTheDay.attachRoutes(router, client);
 
 
 // REGISTER OUR ROUTES
