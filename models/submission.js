@@ -42,7 +42,7 @@ module.exports = function(client, app) {
 
     methods.findByPK = function(id, cb) {
         var query = 'SELECT * FROM submission WHERE id=?';
-        client.execute(query, [email], {prepare: true}, function(err, result) {
+        client.execute(query, [id], {prepare: true}, function(err, result) {
             cb(err, result.rows[0]);
         });
     };

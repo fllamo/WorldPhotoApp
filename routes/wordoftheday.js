@@ -1,6 +1,5 @@
 exports.attachRoutes = function attachRoutes (router, client) {
-    // var Word = require('../models/wordoftheday');
-    var Word;
+    var Word = require('../models/wordoftheday')(client);
 
     // on routes Submission
     router.route('/word')
@@ -8,9 +7,7 @@ exports.attachRoutes = function attachRoutes (router, client) {
             var Word = {};
 
             Word.id = req.body.id;
-            Word.dateStarted = req.body.dateStarted;
             Word.word = req.body.word;
-            Word.submissions = req.body.submissions;
 
             Word.add(function(err, user) {
                 if (err)
@@ -35,15 +32,15 @@ exports.attachRoutes = function attachRoutes (router, client) {
         .put(function(req, res) {
 
             // use our user model to find the user we want
-            Word.findById(req.params.email, function(err, user) {
+            Word.findByPK(req.params.id, function(err, word) {
 
                 if (err)
                     res.send(err);
 
-                Word.name = req.body.name;  // update the bears info
+                word.word = req.body.word || word.word;  // update the words info
 
-                // save the bear
-                Word.save(function(err) {
+                // save the word
+                Word.update(word, function(err) {
                     if (err)
                         res.send(err);
 
@@ -55,16 +52,17 @@ exports.attachRoutes = function attachRoutes (router, client) {
         })
 
         .get(function(req, res){
-            Word.findById(function(err, user) {
+            Word.findByPK(req.params.id, function(err, word) {
+                if (err)
+                    res.send(err);
 
+                res.json(users);
             });
 
         })
 
         .delete(function(req, res) {
-            Word.remove({
-                _id: req.params.id
-            }, function(err, user) {
+            Word.remove(req.params.id, function(err, user) {
                 if (err)
                     res.send(err);
 

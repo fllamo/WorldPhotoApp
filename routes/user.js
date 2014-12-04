@@ -1,6 +1,4 @@
 exports.attachRoutes = function attachRoutes (router, client) {
-
-
     var User = require('../models/user')(client);
 
     // on routes Users
