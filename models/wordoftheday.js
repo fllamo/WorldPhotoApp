@@ -2,10 +2,6 @@ module.exports = function(client, app) {
     var cassandra = require('cassandra-driver');
     var methods = {};
 
-  id VARCHAR PRIMARY KEY,
-  dateStarted TIMESTAMP,
-  word VARCHAR
-
     methods.add = function(word, cb) {
         var query = "INSERT INTO WordOfTheDay (id, word, dateStarted) VALUES (?,?,?)";
         var params = [word.id, word.word, getDate()];
