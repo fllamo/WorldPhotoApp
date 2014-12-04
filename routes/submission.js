@@ -7,20 +7,19 @@ exports.attachRoutes = function attachRoutes (router, client) {
         .post(function(req, res) {
             var submission = {};
 
-            submission.id = req.body.firstname;
-            submission.wordOfTheDayId = req.body.lastname;
+            submission.id = req.body.id;
+            submission.wordOfTheDayId = req.body.wordOfTheDayId;
             submission.userEmail = req.body.userEmail;
             submission.timestamp = req.body.timestamp;
             submission.votesFor = req.body.votesFor;
             submission.linkToImage = req.body.linkToImage;
 
-            Submission.add(function(err, user) {
+            Submission.add(submission, function(err, submission) {
                 if (err)
                     res.send(err);
 
                 res.json({message: 'Submission Created!'});
             });
-
 
         })
 
@@ -36,16 +35,20 @@ exports.attachRoutes = function attachRoutes (router, client) {
     router.route('/submission/:id')
         .put(function(req, res) {
 
-            // use our user model to find the user we want
-            Submission.findById(req.params.email, function(err, user) {
+            // use our submission model to find the submission we want
+            Submission.findByPK(req.params.id, function(err, submission) {
 
                 if (err)
                     res.send(err);
 
-                user.name = req.body.name;  // update the bears info
+                submission.wordOfTheDayId = req.body.wordOfTheDayId;
+                submission.userEmail = req.body.userEmail;
+                submission.timestamp = req.body.timestamp;
+                submission.votesFor = req.body.votesFor;
+                submission.linkToImage = req.body.linkToImage;
 
-                // save the bear
-                user.save(function(err) {
+                // save the submission
+                Submission.update(submission, function(err) {
                     if (err)
                         res.send(err);
 
@@ -57,21 +60,43 @@ exports.attachRoutes = function attachRoutes (router, client) {
         })
 
         .get(function(req, res){
-            Submission.findById(function(err, user) {
+            Submission.findByPK(req.params.id, function(err, submission) {
+                if (err)
+                    res.send(err);
 
+                res.json(submission);
             });
 
         })
 
         .delete(function(req, res) {
-            Submission.remove({
-                _id: req.params.id
-            }, function(err, user) {
+            Submission.remove(req.params.id, function(err, sub) {
                 if (err)
                     res.send(err);
 
                 res.json({message:'Submission successfully delete'});
             });
+        });
+
+    router.route('/submission/vote/:id')
+        .put(function(req, res) {
+
+            // use our submission model to find the submission we want
+            Submission.findByPK(req.params.id, function(err, submission) {
+
+                if (err)
+                    res.send(err);
+
+                // save the submission
+                Submission.voteUp(req.params.id, function(err) {
+                    if (err)
+                        res.send(err);
+
+                    res.json({ message: 'Submission vote counted!' });
+                });
+
+            });
+
         });
 
 }

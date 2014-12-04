@@ -9,11 +9,9 @@ var cassandra = require('cassandra-driver');
 var async = require('async');
 
 
-// var authProvider = new cassandra.auth.PlainTextAuthProvider('fllamo', 'inn0W33k');
-// //Set the auth provider in the clientOptions when creating the Client instance
-// var client = new Client({authProvider: authProvider});
-
-var client = new cassandra.Client({contactPoints: ['ec2-54-165-49-48.compute-1.amazonaws.com'], keyspace: 'words'});
+var authProvider = new cassandra.auth.PlainTextAuthProvider('wordsapp', 'inn0W33k');
+//Set the auth provider in the clientOptions when creating the Client instance
+var client = new cassandra.Client({authProvider: authProvider, contactPoints: ['ec2-54-165-49-48.compute-1.amazonaws.com'], keyspace: 'words'});
 client.connect(function(err){
     console.log(err);
 });
