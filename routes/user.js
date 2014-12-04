@@ -40,8 +40,8 @@ exports.attachRoutes = function attachRoutes (router, client) {
                 if (err)
                     res.send(err);
 
-                user.firstname = req.body.firstName;
-                user.lastname = req.body.lastName;
+                user.firstname = req.body.firstName || user.firstname;
+                user.lastname = req.body.lastName || user.lastname;
 
                 // update the user
                 User.update(user, function(err) {

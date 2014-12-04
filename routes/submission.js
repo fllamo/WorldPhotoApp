@@ -41,11 +41,9 @@ exports.attachRoutes = function attachRoutes (router, client) {
                 if (err)
                     res.send(err);
 
-                submission.wordOfTheDayId = req.body.wordOfTheDayId;
-                submission.userEmail = req.body.userEmail;
-                submission.timestamp = req.body.timestamp;
-                submission.votesFor = req.body.votesFor;
-                submission.linkToImage = req.body.linkToImage;
+                submission.wordOfTheDayId = req.body.wordOfTheDayId || submission.wordOfTheDayId;
+                submission.userEmail = req.body.userEmail || submission.userEmail;
+                submission.linkToImage = req.body.linkToImage || submission.linkToImage;
 
                 // save the submission
                 Submission.update(submission, function(err) {
