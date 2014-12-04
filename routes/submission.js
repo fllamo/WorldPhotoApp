@@ -9,13 +9,16 @@ exports.attachRoutes = function attachRoutes (router, client) {
             submission.id = req.body.id;
             submission.wordOfTheDayId = req.body.wordOfTheDayId;
             submission.userEmail = req.body.userEmail;
-            submission.timestamp = req.body.timestamp;
-            submission.votesFor = req.body.votesFor;
+            submission.timestamp = req.body.timestamp || 0;
+            submission.votesFor = req.body.votesFor || 0;
             submission.linkToImage = req.body.linkToImage;
 
             Submission.add(submission, function(err, submission) {
-                if (err)
+                if (err) {
                     res.send(err);
+                    // throw err;
+                }
+
 
                 res.json({message: 'Submission Created!'});
             });
@@ -23,11 +26,11 @@ exports.attachRoutes = function attachRoutes (router, client) {
         })
 
         .get(function(req, res) {
-            Submission.findAll(function(err, users){
+            Submission.findAll(function(err, submission){
                 if (err)
                     res.send(err);
 
-                res.json(user);
+                res.json(submission);
             });
         });
 
@@ -46,8 +49,10 @@ exports.attachRoutes = function attachRoutes (router, client) {
 
                 // save the submission
                 Submission.update(submission, function(err) {
-                    if (err)
+                    if (err) {
                         res.send(err);
+                        throw err;
+                    }
 
                     res.json({ message: 'Submission updated!' });
                 });
@@ -67,7 +72,7 @@ exports.attachRoutes = function attachRoutes (router, client) {
         })
 
         .delete(function(req, res) {
-            Submission.remove(req.params.id, function(err, sub) {
+            Submission.remove(req.params.id, function(err, submission) {
                 if (err)
                     res.send(err);
 

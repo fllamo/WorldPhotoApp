@@ -3,16 +3,18 @@ module.exports = function(client, app) {
     var methods = {};
 
     methods.add = function(sub, cb) {
-        var query = "INSERT INTO submission (id, wordOfTheDayId, userEmail, linkToImage, timestamp) VALUES (?,?,?,?)";
-        var params = [sub.id, sub.wordOfTheDayId, sub.userEmail, sub.linkToImage, getDate()];
+        var query = "INSERT INTO submission (id, wordofthedayid, useremail, linktoimage, timestamp) VALUES (?,?,?,?,?)";
+        var date  = getDate();
+        var params = [sub.id, parseInt(sub.wordOfTheDayId), sub.userEmail, sub.linkToImage, parseInt(date)];
         client.execute(query, params, {prepare: true}, function(err) {
             cb(err, null);
         });
     };
 
     methods.update = function(sub, cb) {
-        var query = "UPDATE submission SET wordOfTheDayId=?, userEmail=?, linkToImage=?, timestamp=? WHERE id=?";
-        var params = [sub.wordOfTheDayId, sub.userEmail, sub.linkToImage, getDate(), sub.id];
+        var query = "UPDATE submission SET wordofthedayid=?, useremail=?, linktoimage=?, timestamp=? WHERE id=?";
+        var date  = getDate();
+        var params = [parseInt(sub.wordOfTheDayId), sub.userEmail, sub.linkToImage, parseInt(date), sub.id];
         client.execute(query, params, {prepare: true}, function(err) {
             cb(err, null);
         });
@@ -41,7 +43,7 @@ module.exports = function(client, app) {
     };
 
     methods.findByPK = function(id, cb) {
-        var query = 'SELECT * FROM submission WHERE id=?';
+        var query = 'SELECT * FROM Submission WHERE id=?';
         client.execute(query, [id], {prepare: true}, function(err, result) {
             cb(err, result.rows[0]);
         });
@@ -52,7 +54,7 @@ module.exports = function(client, app) {
             Date.now = function() { return new Date().getTime(); };
         }
 
-        return Date.now;
+        return Date.now();
     };
 
     return methods;
