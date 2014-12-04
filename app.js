@@ -12,7 +12,7 @@ var async = require('async');
 var authProvider = new cassandra.auth.PlainTextAuthProvider('wordsapp', 'inn0W33k');
 //Set the auth provider in the clientOptions when creating the Client instance
 var client = new cassandra.Client({authProvider: authProvider, contactPoints: ['ec2-54-165-49-48.compute-1.amazonaws.com'], keyspace: 'words'});
-client.connect(function(er){
+client.connect(function(er, req, res){
     if (er) {
         console.trace('Module: cassandra-driver');
         console.error(er); // handle the error + log stack trace.
