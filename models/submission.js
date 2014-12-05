@@ -38,6 +38,7 @@ module.exports = function(client, app) {
 
     methods.findAll = function(cb) {
         client.execute("SELECT * FROM submission", function (err, result) {
+            throw err;
             cb(err, result.rows);
         });
     };
@@ -50,17 +51,15 @@ module.exports = function(client, app) {
     };
 
     methods.findByWordofTheDay = function(id, cb) {
-        var query = 'SELECT * FROM Submission WHERE wordofthedayid=?';
+        var query = 'SELECT * FROM Submission WHERE wordOfTheDayId=?';
         client.execute(query, [id], {prepare: true}, function(err, result) {
-            throw err;
             cb(err, result.rows);
         });
     };
 
     methods.findByUser = function(email, cb) {
-        var query = 'SELECT * FROM Submission WHERE useremail=?';
+        var query = 'SELECT * FROM Submission WHERE userEmail=?';
         client.execute(query, [email], {prepare: true}, function(err, result) {
-            throw err;
             cb(err, result.rows);
         });
     };

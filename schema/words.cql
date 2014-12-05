@@ -7,13 +7,12 @@ CREATE TABLE words.User (
 );
 
 CREATE TABLE words.Submission (
-  id VARCHAR,
+  id VARCHAR PRIMARY KEY,
   wordOfTheDayId VARCHAR,
   userEmail VARCHAR,
   timestamp TIMESTAMP,
   votesFor INT,
-  linkToImage VARCHAR,
-  PRIMARY KEY (id, wordOfTheDayId, userEmail)
+  linkToImage VARCHAR
 );
 
 CREATE TABLE words.WordOfTheDay (
@@ -25,4 +24,7 @@ CREATE TABLE words.WordOfTheDay (
 CREATE USER altadmin WITH PASSWORD 'inn0W33k' SUPERUSER;
 ALTER USER cassandra WITH PASSWORD 'supercalifragilisticexpialidcious-too';
 CREATE USER wordsapp WITH PASSWORD 'inn0W33k' NOSUPERUSER;
+
+CREATE INDEX submission_word_idx ON submission(wordOfTheDayId);
+CREATE INDEX submission_email_idx ON submission(userEmail);
 

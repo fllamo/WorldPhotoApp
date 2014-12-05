@@ -58,7 +58,7 @@ exports.attachRoutes = function attachRoutes (router, client) {
                 if (err)
                     res.send(err);
 
-                res.json(users);
+                res.json(user);
             });
 
         })
