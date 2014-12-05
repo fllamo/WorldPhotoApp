@@ -10,13 +10,12 @@ exports.attachRoutes = function attachRoutes (router, client) {
             submission.wordOfTheDayId = req.body.wordOfTheDayId;
             submission.userEmail = req.body.userEmail;
             submission.timestamp = req.body.timestamp || 0;
-            submission.votesFor = req.body.votesFor || 0;
             submission.linkToImage = req.body.linkToImage;
 
             Submission.add(submission, function(err, submission) {
                 if (err) {
                     res.send(err);
-                    // throw err;
+                    throw err;
                 }
 
 

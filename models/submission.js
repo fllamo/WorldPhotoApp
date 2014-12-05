@@ -5,7 +5,7 @@ module.exports = function(client, app) {
     methods.add = function(sub, cb) {
         var query = "INSERT INTO submission (id, wordofthedayid, useremail, linktoimage, timestamp) VALUES (?,?,?,?,?)";
         var date  = getDate();
-        var params = [sub.id, parseInt(sub.wordOfTheDayId), sub.userEmail, sub.linkToImage, parseInt(date)];
+        var params = [sub.id, sub.wordOfTheDayId, sub.userEmail, sub.linkToImage, parseInt(date)];
         client.execute(query, params, {prepare: true}, function(err) {
             cb(err, null);
         });
@@ -14,7 +14,7 @@ module.exports = function(client, app) {
     methods.update = function(sub, cb) {
         var query = "UPDATE submission SET wordofthedayid=?, useremail=?, linktoimage=?, timestamp=? WHERE id=?";
         var date  = getDate();
-        var params = [parseInt(sub.wordOfTheDayId), sub.userEmail, sub.linkToImage, parseInt(date), sub.id];
+        var params = [sub.wordOfTheDayId, sub.userEmail, sub.linkToImage, parseInt(date), sub.id];
         client.execute(query, params, {prepare: true}, function(err) {
             cb(err, null);
         });

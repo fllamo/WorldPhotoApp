@@ -8,13 +8,13 @@ CREATE TABLE words.User (
 
 CREATE TABLE words.Submission (
   id VARCHAR PRIMARY KEY,
-  wordOfTheDayId INT,
+  wordOfTheDayId VARCHAR,
   userEmail VARCHAR,
   timestamp TIMESTAMP,
   votesFor INT,
   linkToImage VARCHAR
 );
- 
+
 CREATE TABLE words.WordOfTheDay (
   id VARCHAR PRIMARY KEY,
   dateStarted TIMESTAMP,
