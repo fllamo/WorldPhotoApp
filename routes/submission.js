@@ -89,7 +89,7 @@ exports.attachRoutes = function attachRoutes (router, client) {
                     res.send(err);
 
                 // save the submission
-                Submission.voteUp(req.params.id, function(err) {
+                Submission.voteUp(submission, function(err) {
                     if (err)
                         res.send(err);
 

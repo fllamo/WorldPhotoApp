@@ -20,9 +20,10 @@ module.exports = function(client, app) {
         });
     };
 
-    methods.voteUp = function(id, cb) {
-        var query = "UPDATE submission SET votesFor = votesFor + 1 WHERE id=?";
-        var params = [id];
+    methods.voteUp = function(sub, cb) {
+        var votesfor = ++sub.votesfor;
+        var query = "UPDATE submission SET votesfor=? WHERE id=?";
+        var params = [votesfor, sub.id];
         client.execute(query, params, {prepare: true}, function(err) {
             cb(err, null);
         });
