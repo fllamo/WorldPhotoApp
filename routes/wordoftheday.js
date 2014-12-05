@@ -8,7 +8,7 @@ exports.attachRoutes = function attachRoutes (router, client) {
 
             word.id = req.body.id;
             word.word = req.body.word;
-            // word.datestarted = req.body.dateStarted;
+            word.datestarted = req.body.dateStarted;
 
             Word.add(word, function(err, word) {
                 if (err) {

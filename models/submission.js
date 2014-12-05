@@ -3,9 +3,9 @@ module.exports = function(client, app) {
     var methods = {};
 
     methods.add = function(sub, cb) {
-        var query = "INSERT INTO submission (id, wordofthedayid, useremail, linktoimage, timestamp) VALUES (?,?,?,?,?)";
+        var query = "INSERT INTO submission (id, wordofthedayid, useremail, linktoimage, timestamp, votesFor) VALUES (?,?,?,?,?,?)";
         var date  = getDate();
-        var params = [sub.id, sub.wordOfTheDayId, sub.userEmail, sub.linkToImage, parseInt(date)];
+        var params = [sub.id, sub.wordOfTheDayId, sub.userEmail, sub.linkToImage, parseInt(date), 0];
         client.execute(query, params, {prepare: true}, function(err) {
             cb(err, null);
         });
@@ -38,7 +38,6 @@ module.exports = function(client, app) {
 
     methods.findAll = function(cb) {
         client.execute("SELECT * FROM submission", function (err, result) {
-            throw err;
             cb(err, result.rows);
         });
     };
