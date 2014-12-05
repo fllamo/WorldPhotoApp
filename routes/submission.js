@@ -100,4 +100,30 @@ exports.attachRoutes = function attachRoutes (router, client) {
 
         });
 
+    router.route('/submission/user/:email')
+        .get(function(req, res) {
+            Submission.findByUser(req.params.email, function(err, submission) {
+                if (err) {
+                    res.send(err);
+                    throw err;
+                }
+
+                res.json(submission);
+            });
+
+        });
+
+    router.route('/submission/wordoftheday/:id')
+        .get(function(req, res) {
+            Submission.findByWordofTheDay(req.params.id, function(err, submission) {
+                if (err) {
+                    res.send(err);
+                    throw err;
+                }
+
+                res.json(submission);
+            });
+
+        });
+
 }

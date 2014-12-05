@@ -49,6 +49,22 @@ module.exports = function(client, app) {
         });
     };
 
+    methods.findByWordofTheDay = function(id, cb) {
+        var query = 'SELECT * FROM Submission WHERE wordofthedayid=?';
+        client.execute(query, [id], {prepare: true}, function(err, result) {
+            throw err;
+            cb(err, result.rows);
+        });
+    };
+
+    methods.findByUser = function(email, cb) {
+        var query = 'SELECT * FROM Submission WHERE useremail=?';
+        client.execute(query, [email], {prepare: true}, function(err, result) {
+            throw err;
+            cb(err, result.rows);
+        });
+    };
+
     getDate = function(){
         if (!Date.now) {
             Date.now = function() { return new Date().getTime(); };

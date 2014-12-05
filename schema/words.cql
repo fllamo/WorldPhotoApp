@@ -7,12 +7,13 @@ CREATE TABLE words.User (
 );
 
 CREATE TABLE words.Submission (
-  id VARCHAR PRIMARY KEY,
+  id VARCHAR,
   wordOfTheDayId VARCHAR,
   userEmail VARCHAR,
   timestamp TIMESTAMP,
   votesFor INT,
-  linkToImage VARCHAR
+  linkToImage VARCHAR,
+  PRIMARY KEY (id, wordOfTheDayId, userEmail)
 );
 
 CREATE TABLE words.WordOfTheDay (
